@@ -14,7 +14,8 @@ import {
   Calendar,
   User,
   Shield,
-  FileCheck
+  FileCheck,
+  FolderOpen
 } from 'lucide-react';
 
 export const DocumentHub = () => {
@@ -73,6 +74,13 @@ export const DocumentHub = () => {
     const date = new Date(isoString);
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   };
+
+  const tabs = [
+    { value: 'All', label: 'All Documents', icon: Layers, count: documents.length },
+    { value: 'SOP', label: 'SOP Guides', icon: FileText, count: sopsCount },
+    { value: 'Report', label: 'Reports', icon: FileSpreadsheet, count: reportsCount },
+    { value: 'Project', label: 'Project Files', icon: FolderOpen, count: projectsCount }
+  ];
 
   return (
     <div className="space-y-6">
@@ -142,45 +150,56 @@ export const DocumentHub = () => {
         </div>
       </div>
 
-      {/* FILTER & SEARCH BAR */}
-      <div className="glass-card rounded-2xl p-4 space-y-4 bg-white/30 border-white/20">
-        <div className="flex flex-col md:flex-row gap-3">
-          {/* Search box */}
-          <div className="relative flex-1">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <input
-              type="text"
-              placeholder="Search documents by title, tags, description..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 glass-input rounded-xl text-sm focus:outline-none placeholder:text-slate-400"
-            />
+      {/* FILTER, TABS, & SEARCH BAR */}
+      <div className="glass-card rounded-2xl p-4 bg-white/30 border-white/20">
+        <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+          
+          {/* Tab Switcher */}
+          <div className="flex flex-wrap gap-1.5 p-1 bg-white/40 border border-white/50 rounded-2xl shadow-sm w-full lg:w-auto">
+            {tabs.map((tab) => (
+              <button
+                key={tab.value}
+                onClick={() => setSelectedType(tab.value)}
+                className={`flex items-center justify-center gap-2 flex-1 lg:flex-none px-4 py-2.5 rounded-xl text-xs font-extrabold transition-all duration-200 cursor-pointer ${
+                  selectedType === tab.value
+                    ? 'bg-gradient-to-r from-teal-600 to-emerald-600 text-white shadow-md shadow-teal-600/10'
+                    : 'text-slate-600 hover:text-slate-800 hover:bg-white/40'
+                }`}
+              >
+                <tab.icon className={`w-3.5 h-3.5 ${selectedType === tab.value ? 'text-white' : 'text-slate-500'}`} />
+                <span className="whitespace-nowrap">{tab.label}</span>
+                <span className={`text-[9px] px-1.5 py-0.2 rounded-md ${
+                  selectedType === tab.value 
+                    ? 'bg-white/20 text-white' 
+                    : 'bg-slate-200/50 text-slate-500'
+                }`}>
+                  {tab.count}
+                </span>
+              </button>
+            ))}
           </div>
 
-          {/* Filters */}
-          <div className="flex flex-wrap gap-2.5">
-            {/* Type selector */}
-            <div className="flex items-center gap-1.5 bg-white/40 border border-white/60 p-1 rounded-xl">
-              <span className="text-xs font-semibold text-slate-500 pl-2">Type:</span>
-              <select
-                value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-                className="bg-transparent text-xs font-bold text-slate-700 py-1.5 px-2.5 focus:outline-none rounded-lg hover:bg-white/50 cursor-pointer"
-              >
-                <option value="All">All Types</option>
-                <option value="SOP">SOP</option>
-                <option value="Report">Report</option>
-                <option value="Project">Project</option>
-              </select>
+          {/* Right Actions: Search Box & Access Dropdown */}
+          <div className="flex flex-col md:flex-row gap-3 w-full lg:w-auto lg:flex-1 justify-end">
+            {/* Search box */}
+            <div className="relative w-full md:max-w-xs">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search documents..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 glass-input rounded-xl text-sm focus:outline-none placeholder:text-slate-400"
+              />
             </div>
 
             {/* Access Level Selector */}
-            <div className="flex items-center gap-1.5 bg-white/40 border border-white/60 p-1 rounded-xl">
+            <div className="flex items-center gap-1.5 bg-white/40 border border-white/60 p-1 rounded-xl w-full md:w-auto shrink-0">
               <span className="text-xs font-semibold text-slate-500 pl-2">Access:</span>
               <select
                 value={selectedAccess}
                 onChange={(e) => setSelectedAccess(e.target.value)}
-                className="bg-transparent text-xs font-bold text-slate-700 py-1.5 px-2.5 focus:outline-none rounded-lg hover:bg-white/50 cursor-pointer"
+                className="bg-transparent text-xs font-bold text-slate-700 py-1.5 px-2.5 focus:outline-none rounded-lg hover:bg-white/50 cursor-pointer w-full md:w-auto"
               >
                 <option value="All">All Clearance</option>
                 <option value="general_member">general_member</option>
@@ -190,6 +209,7 @@ export const DocumentHub = () => {
               </select>
             </div>
           </div>
+
         </div>
       </div>
 
