@@ -37,9 +37,9 @@ export const DocumentHub = () => {
   const canUpload = currentUser && currentUser.org_role !== 'general_member';
 
   // Stats calculation
-  const sopsCount = documents.filter(d => d.type === 'SOP').length;
-  const reportsCount = documents.filter(d => d.type === 'Report').length;
-  const projectsCount = documents.filter(d => d.type === 'Project').length;
+  const sopsCount = documents.filter(d => (d.type || '').toUpperCase() === 'SOP').length;
+  const reportsCount = documents.filter(d => (d.type || '').toUpperCase() === 'REPORT').length;
+  const projectsCount = documents.filter(d => (d.type || '').toUpperCase() === 'PROJECT').length;
 
   // Search & filter documents
   const filteredDocuments = documents.filter(doc => {
@@ -48,19 +48,20 @@ export const DocumentHub = () => {
       doc.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doc.file_name.toLowerCase().includes(searchQuery.toLowerCase());
       
-    const matchesType = selectedType === 'All' || doc.type === selectedType;
+    const matchesType = selectedType === 'All' || (doc.type || '').toUpperCase() === selectedType.toUpperCase();
     const matchesAccess = selectedAccess === 'All' || doc.role_access === selectedAccess;
 
     return matchesSearch && matchesType && matchesAccess;
   });
 
   const getDocIcon = (type) => {
-    switch (type) {
+    const typeUpper = (type || '').toUpperCase();
+    switch (typeUpper) {
       case 'SOP':
         return <FileText className="w-6 h-6 text-teal-600" />;
-      case 'Report':
+      case 'REPORT':
         return <FileSpreadsheet className="w-6 h-6 text-indigo-600" />;
-      case 'Project':
+      case 'PROJECT':
       default:
         return <Layers className="w-6 h-6 text-emerald-600" />;
     }
@@ -235,8 +236,8 @@ export const DocumentHub = () => {
                     
                     <div className="flex flex-col items-end gap-1 shrink-0">
                       <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider ${
-                        doc.type === 'SOP' ? 'bg-teal-500/10 text-teal-700 border-teal-500/20' :
-                        doc.type === 'Report' ? 'bg-indigo-500/10 text-indigo-700 border-indigo-500/20' :
+                        (doc.type || '').toUpperCase() === 'SOP' ? 'bg-teal-500/10 text-teal-700 border-teal-500/20' :
+                        (doc.type || '').toUpperCase() === 'REPORT' ? 'bg-indigo-500/10 text-indigo-700 border-indigo-500/20' :
                         'bg-emerald-500/10 text-emerald-700 border-emerald-500/20'
                       }`}>
                         {doc.type}
