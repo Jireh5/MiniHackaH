@@ -55,9 +55,11 @@ export const Login = () => {
       <div className="w-full max-w-md relative z-10">
         {/* LOGO BLOCK */}
         <div className="flex flex-col items-center mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white shadow-lg shadow-teal-500/20 mb-3">
-            <ShieldCheck className="w-6 h-6 animate-pulse" />
-          </div>
+          <img 
+            src="/logo.jpg" 
+            alt="OrgVault Logo" 
+            className="w-24 h-24 rounded-2xl object-cover shadow-xl shadow-teal-500/10 mb-2 border border-white/50"
+          />
           <h1 className="text-2xl font-black text-slate-800 tracking-tight leading-none">OrgVault</h1>
           <p className="text-xs text-slate-500 font-bold mt-1 uppercase tracking-wider">Secure Turnover & SOP Hub</p>
         </div>

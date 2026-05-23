@@ -52,9 +52,11 @@ export const Layout = ({ children }) => {
         <div className="max-w-7xl mx-auto glass-panel rounded-2xl px-4 py-3 flex items-center justify-between shadow-sm">
           {/* Logo */}
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white shadow-md shadow-teal-500/20">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
+            <img 
+              src="/logo.jpg" 
+              alt="OrgVault Logo" 
+              className="w-10 h-10 rounded-xl object-cover shadow-md shadow-teal-500/20"
+            />
             <div>
               <h1 className="text-xl font-bold tracking-tight text-slate-800 flex items-center gap-1.5 leading-none">
                 OrgVault <span className="text-[10px] uppercase font-semibold bg-teal-600 text-white px-1.5 py-0.5 rounded-md tracking-wider">v1.0</span>
