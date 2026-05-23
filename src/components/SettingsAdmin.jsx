@@ -8,7 +8,8 @@ export const SettingsAdmin = () => {
     documents, 
     checklists, 
     resetDatabase, 
-    getRoleLabel 
+    getRoleLabel,
+    isLiveMode
   } = useApp();
 
   const permissions = [
@@ -38,7 +39,9 @@ export const SettingsAdmin = () => {
             </div>
             <h3 className="text-base font-extrabold text-slate-800 mt-2.5">Active Session Credentials</h3>
             <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-              Your UI is operating under simulated credentials synchronized from the floating Role Switcher.
+              {isLiveMode 
+                ? "Your UI is operating under authenticated credentials synchronized with your Supabase account."
+                : "Your UI is operating under simulated credentials. You can swap profiles by signing out to return to the simulation gateway."}
             </p>
             
             <div className="mt-4 p-3 bg-white/60 rounded-xl border border-slate-200/50 space-y-2.5">
@@ -97,7 +100,10 @@ export const SettingsAdmin = () => {
           <div className="p-3 bg-teal-50 border border-teal-100 rounded-xl flex items-start gap-2.5">
             <Sparkles className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
             <div className="text-[11px] text-teal-800 leading-relaxed font-semibold">
-              <span className="font-extrabold">Notice:</span>supbaseMock.js emulates transactional state using LocalStorage. You can upload new files or delete them, and changes will be saved to your browser cache automatically.
+              <span className="font-extrabold">Notice: </span>
+              {isLiveMode
+                ? "OrgVault is connected to a Live Supabase Database. All document uploads, checklists, and authentication records are securely stored and queried in real-time."
+                : "supabaseMock.js emulates transactional state using LocalStorage. You can upload new files or delete them, and changes will be saved to your browser cache automatically."}
             </div>
           </div>
         </div>
